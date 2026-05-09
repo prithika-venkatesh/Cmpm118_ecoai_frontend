@@ -1,57 +1,32 @@
 // ─────────────────────────────────────────────────────────
-//  groq.js  –  Call both LLM models at the same time
-// ─────────────────────────────────────────────────────────
-//
-//  We use the Groq API because it's:
-//    • Free tier  (no credit card needed to start)
-//    • Very fast  (purpose-built inference hardware)
-//    • Returns token counts in every response
-//
-//  The two models:
-//    ⚡ llama-3.3-70b-versatile   →  "Standard"  (fast, direct)
-//    🧠 qwen/qwen3-32b →  "Chain-of-Thought"
-//       (reasons step-by-step before answering, uses more tokens)
-//
-//  HOW TO GET A FREE GROQ KEY:
-//    1. Go to https://console.groq.com
-//    2. Sign up (free)
-//    3. API Keys → Create key
-//    4. Paste it into your .env as VITE_GROQ_API_KEY
-//
+//  ollama.js  –  Call both LLM models via Ollama on Nautilus
 // ─────────────────────────────────────────────────────────
 
 import { estimateUsage } from './carbon.js'
 
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const API_KEY  = import.meta.env.VITE_GROQ_API_KEY
+const OLLAMA_URL = 'http://localhost:11434/api/chat'
 
 const MODELS = {
-  standard: 'llama-3.3-70b-versatile',
-  cot:      'qwen/qwen3-32b',
+  standard: 'llama3.2:1b',
+  cot:      'qwen2.5:1.5b',
 }
 
-/**
- * Call a single Groq model and return the response + usage stats.
- */
 async function callModel(modelKey, prompt) {
   const start = Date.now()
 
-  const res = await fetch(GROQ_URL, {
+  const res = await fetch(OLLAMA_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type':  'application/json',
-      'Authorization': `Bearer ${API_KEY}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model:       MODELS[modelKey],
-      max_tokens:  1024,
+      model: MODELS[modelKey],
+      stream: false,
       messages: [
         {
-          role:    'system',
+          role: 'system',
           content: 'You are a helpful, concise assistant. Answer clearly and directly.',
         },
         {
-          role:    'user',
+          role: 'user',
           content: prompt,
         },
       ],
@@ -60,16 +35,15 @@ async function callModel(modelKey, prompt) {
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error(err?.error?.message || `Groq API error: ${res.status}`)
+    throw new Error(err?.error || `Ollama API error: ${res.status}`)
   }
 
-  const data      = await res.json()
+  const data = await res.json()
   const durationMs = Date.now() - start
 
-  const text         = data.choices[0].message.content
-  .replace(/<think>[\s\S]*?<\/think>/g, '').trim()
-  const promptToks   = data.usage.prompt_tokens
-  const completeToks = data.usage.completion_tokens
+  const text = data.message.content
+  const promptToks = data.prompt_eval_count || 0
+  const completeToks = data.eval_count || 0
 
   return {
     text,
@@ -78,11 +52,6 @@ async function callModel(modelKey, prompt) {
   }
 }
 
-/**
- * Call BOTH models in parallel and return results together.
- * Using Promise.all means they run at the same time — not one
- * after the other — so total wait time is ~max(model1, model2).
- */
 export async function queryBothModels(prompt) {
   const [standard, cot] = await Promise.all([
     callModel('standard', prompt),

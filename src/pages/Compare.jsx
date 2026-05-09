@@ -5,7 +5,7 @@
 
 import React, { useState, useRef } from 'react'
 import ResourceCard   from '../components/ResourceCard.jsx'
-import { queryBothModels } from '../api/groq.js'
+import { queryBothModels } from '../api/ollama.js'
 import { calcCO2Saved }    from '../api/carbon.js'
 import { db }              from '../firebase.js'
 import { doc, updateDoc, increment, arrayUnion, serverTimestamp } from 'firebase/firestore'
@@ -138,7 +138,7 @@ export default function Compare({ user, stats, setStats }) {
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
             <span style={{ fontSize: 12, color: 'var(--text3)' }}>
-              ⚡ llama-3.3-70b  vs  🧠 deepseek-r1
+              ⚡ llama3.2:1b  vs  qwen2.5:1.5b
             </span>
             <button
               onClick={handleSubmit}
@@ -236,8 +236,8 @@ export default function Compare({ user, stats, setStats }) {
         overflow: 'hidden',
       }}>
         {[
-          { key: 'standard', label: '⚡ STANDARD',       modelName: 'llama-3.3-70b',  badgeColor: '#1a3a5c', badgeText: '#60a5fa', btnColor: 'var(--green)' },
-          { key: 'cot',      label: '🧠 CHAIN-OF-THOUGHT', modelName: 'qwen3-32b',   badgeColor: '#2d1a4a', badgeText: '#c084fc', btnColor: 'var(--amber)' },
+          { key: 'standard', label: '⚡ STANDARD',       modelName: 'llama3.2:1b',  badgeColor: '#1a3a5c', badgeText: '#60a5fa', btnColor: 'var(--green)' },
+          { key: 'cot',      label: '🧠 CHAIN-OF-THOUGHT', modelName: 'qwen2.5:1.5b', badgeColor: '#2d1a4a', badgeText: '#c084fc', btnColor: 'var(--amber)' },
         ].map(({ key, label, modelName, badgeColor, badgeText, btnColor }) => {
           const data = results[key]
           const isEfficient = key === 'standard' ? isStandardEfficient : !isStandardEfficient
