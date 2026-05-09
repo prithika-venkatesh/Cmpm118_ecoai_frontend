@@ -1,0 +1,51 @@
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0a1a0d;
+  color: #e8f5ea;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── CSS Variables ──────────────────────────────────────── */
+:root {
+  --bg:          #0a1a0d;
+  --bg2:         #0f2213;
+  --bg3:         #132916;
+  --card:        #0d1f10;
+  --border:      #1e3d22;
+  --border2:     #2a5230;
+  --green:       #22c55e;
+  --green-dim:   #16a34a;
+  --green-muted: #1a3d1f;
+  --amber:       #f59e0b;
+  --amber-dim:   #d97706;
+  --purple:      #a855f7;
+  --red:         #ef4444;
+  --blue:        #60a5fa;
+  --text:        #e8f5ea;
+  --text2:       #9dbfa3;
+  --text3:       #5a8a62;
+  --mono:        'JetBrains Mono', monospace;
+  --sans:        'DM Sans', sans-serif;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-muted); }
+
+/* ── Loading Dots Animation ─────────────────────────────── */
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+
+/* ── Fade in ─────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.3s ease forwards; }
