@@ -227,10 +227,16 @@ export default function Stats({ stats }) {
               <a href="https://mlco2.github.io/impact" target="_blank" rel="noreferrer"
                 style={{ color: 'var(--green)' }}>mlco2.github.io/impact</a>
             </div>
-          </div>
-        </div>
-      </div>
+            </div>
 
-    </div>
-  )
-}
+              <p style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 0, marginTop: 12 }}>
+                ⚠️ These are estimates. Actual emissions vary by hardware, data center location,
+                and energy source. GPU inference on Nautilus cluster (CPU-only) may differ
+                from published A100 benchmarks.
+                </p>
+              </div>
+            </div>
+
+          </div>
+      )
+    }     
