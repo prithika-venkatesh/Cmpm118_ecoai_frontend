@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 
-const ADMIN_EMAILS = ['pvenkat7@ucsc.edu']
+const ADMIN_EMAILS = ['pvenkat7@ucsc.edu', 'saarai@ucsc.edu', 'kde@ucsc.edu', 'vjallu@ucsc.edu', 'absouza@ucsc.edu']
 
 export default function Admin({ user }) {
   const [users, setUsers]       = useState([])

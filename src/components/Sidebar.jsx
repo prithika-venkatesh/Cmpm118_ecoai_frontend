@@ -110,7 +110,7 @@ export default function Sidebar({ user, stats }) {
       <nav style={{ padding: '10px 8px', flex: 1 }}>
       {navItem(isCompare, '⇄', 'Compare', () => navigate('/compare'))}
       {navItem(isStats,   '📊', 'My Stats', () => navigate('/stats'))}
-      {['pvenkat7@ucsc.edu'].includes(user?.email) &&
+      {['pvenkat7@ucsc.edu','saarai@ucsc.edu', 'kde@ucsc.edu', 'vjallu@ucsc.edu', 'absouza@ucsc.edu'].includes(user?.email) &&
          navItem(isAdmin, '🛡️', 'Admin', () => navigate('/admin'))}    
       </nav>
 
