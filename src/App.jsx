@@ -20,6 +20,9 @@ import Login   from './pages/Login.jsx'
 import Compare from './pages/Compare.jsx'
 import Stats   from './pages/Stats.jsx'
 import Sidebar from './components/Sidebar.jsx'
+import Admin from './pages/Admin.jsx'
+
+const ADMIN_EMAILS = ['pvenkat7@ucsc.edu']
 
 // Default stats shape for a brand new user
 const DEFAULT_STATS = {
@@ -95,6 +98,7 @@ export default function App() {
     )
   }
 
+
   // ── Not signed in ────────────────────────────────────────
   if (!user) {
     return <Login />
@@ -116,6 +120,11 @@ export default function App() {
             <Route path="/stats"   element={
               <Stats stats={stats} />
             } />
+             <Route path="/admin"   element={
+                ADMIN_EMAILS.includes(user.email)
+                  ? <Admin user={user} />
+                  : <Navigate to="/compare" replace />
+             } />
           </Routes>
         </div>
 

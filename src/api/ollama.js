@@ -4,8 +4,7 @@
 
 import { estimateUsage } from './carbon.js'
 
-const OLLAMA_URL = 'http://localhost:11434/api/chat'
-
+const OLLAMA_URL = 'https://ecoai-ollama.nrp-nautilus.io/api/chat'
 const MODELS = {
   standard: 'llama3.2:1b',
   cot:      'qwen2.5:1.5b',

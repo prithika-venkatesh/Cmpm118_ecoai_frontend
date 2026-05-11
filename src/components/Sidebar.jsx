@@ -13,6 +13,8 @@ export default function Sidebar({ user, stats }) {
   const location  = useLocation()
   const isCompare = location.pathname === '/' || location.pathname === '/compare'
   const isStats   = location.pathname === '/stats'
+  const isAdmin = location.pathname === '/admin'
+
 
   async function handleSignOut() {
     await signOut(auth)
@@ -101,13 +103,15 @@ export default function Sidebar({ user, stats }) {
           boxShadow: '0 0 6px var(--green)',
           flexShrink: 0,
         }} />
-        <span>Groq online</span>
+        <span>Ollama online</span>
       </div>
 
       {/* Nav links */}
       <nav style={{ padding: '10px 8px', flex: 1 }}>
-        {navItem(isCompare, '⇄', 'Compare', () => navigate('/compare'))}
-        {navItem(isStats,   '📊', 'My Stats', () => navigate('/stats'))}
+      {navItem(isCompare, '⇄', 'Compare', () => navigate('/compare'))}
+      {navItem(isStats,   '📊', 'My Stats', () => navigate('/stats'))}
+      {['pvenkat7@ucsc.edu'].includes(user?.email) &&
+         navItem(isAdmin, '🛡️', 'Admin', () => navigate('/admin'))}    
       </nav>
 
       {/* Bottom: stats + user */}
