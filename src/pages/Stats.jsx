@@ -208,6 +208,26 @@ export default function Stats({ stats }) {
             <div>Total CO₂ = (input tokens + output tokens) × 0.0023g</div>
             <div>CO₂ saved = |CO₂(model A) − CO₂(model B)|</div>
           </div>
+          <div style={{ fontSize: 12, color: 'var(--text3)', lineHeight: 2, marginTop: 16 }}>
+            <div style={{ marginBottom: 4 }}>
+              <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 Patterson et al. (2021)</span>
+              {' '}— "Carbon and the Cloud" — Google Research.{' '}
+              <a href="https://arxiv.org/abs/2104.10350" target="_blank" rel="noreferrer"
+                style={{ color: 'var(--green)' }}>arxiv.org/abs/2104.10350</a>
+            </div>
+            <div style={{ marginBottom: 4 }}>
+              <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 Lannelongue et al. (2021)</span>
+              {' '}— "Green Algorithms: Quantifying the Carbon Footprint of Computation."{' '}
+              <a href="https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707" target="_blank" rel="noreferrer"
+                style={{ color: 'var(--green)' }}>Advanced Science</a>
+            </div>
+            <div>
+              <span style={{ color: 'var(--text2)', fontWeight: 500 }}>🌐 ML CO₂ Impact Calculator</span>
+              {' '}— Lacoste et al.{' '}
+              <a href="https://mlco2.github.io/impact" target="_blank" rel="noreferrer"
+                style={{ color: 'var(--green)' }}>mlco2.github.io/impact</a>
+            </div>
+          </div>
         </div>
       </div>
 
