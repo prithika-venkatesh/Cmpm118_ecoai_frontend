@@ -10,8 +10,8 @@
 //               and redirects to /compare automatically
 // ─────────────────────────────────────────────────────────
 
-import React, { useState } from 'react'
-import { signInWithPopup }  from 'firebase/auth'
+import React, { useState, useEffect } from 'react'
+import { signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth'
 import { auth, provider }   from '../firebase.js'
 
 // Change this to your school's domain if needed
@@ -21,20 +21,35 @@ export default function Login() {
   const [error,   setError]   = useState('')
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    getRedirectResult(auth).then(result => {
+      if (result?.user) {
+        const email = result.user.email ?? ''
+        if (!email.endsWith(ALLOWED_DOMAIN)) {
+          auth.signOut()
+          setError(`Only ${ALLOWED_DOMAIN} email addresses are allowed.`)
+        }
+      }
+    }).catch(e => setError(e.message))
+  }, [])
+
+
   async function handleSignIn() {
     setError('')
     setLoading(true)
     try {
-      const result = await signInWithPopup(auth, provider)
-      const email  = result.user.email ?? ''
-
-      if (!email.endsWith(ALLOWED_DOMAIN)) {
-        // Sign them right back out — they don't have access
-        await auth.signOut()
-        setError(`Only ${ALLOWED_DOMAIN} email addresses are allowed.`)
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      const result = isMobile
+        ? await signInWithRedirect(auth, provider)
+        : await signInWithPopup(auth, provider)
+  
+      if (result) {
+        const email = result.user.email ?? ''
+        if (!email.endsWith(ALLOWED_DOMAIN)) {
+          await auth.signOut()
+          setError(`Only ${ALLOWED_DOMAIN} email addresses are allowed.`)
+        }
       }
-      // If email is fine, App.jsx's onAuthStateChanged fires
-      // and automatically routes to /compare — nothing else needed here
     } catch (e) {
       if (e.code !== 'auth/popup-closed-by-user') {
         setError(e.message)
