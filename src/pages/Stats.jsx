@@ -170,6 +170,47 @@ export default function Stats({ stats }) {
           </div>
         )}
       </div>
+
+      {/* Methodology */}
+      <div style={{
+        background: 'var(--bg3)',
+        border: '1px solid var(--border)',
+        borderRadius: 12,
+        padding: 20,
+        marginTop: 16,
+      }}>
+        <div style={{
+          fontFamily: 'var(--mono)',
+          fontSize: 10,
+          letterSpacing: '2px',
+          color: 'var(--text3)',
+          textTransform: 'uppercase',
+          marginBottom: 18,
+        }}>Carbon Estimation Methodology</div>
+
+        <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.8 }}>
+          <p style={{ marginTop: 0 }}>
+            Carbon and energy estimates are calculated per token using constants derived from
+            published ML energy research:
+          </p>
+          <div style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border2)',
+            borderRadius: 8,
+            padding: '12px 16px',
+            fontFamily: 'var(--mono)',
+            fontSize: 12,
+            marginBottom: 0,
+            lineHeight: 2,
+          }}>
+            <div>CO₂ per token = <span style={{ color: 'var(--green)' }}>0.0023g</span></div>
+            <div>Energy per token = <span style={{ color: 'var(--green)' }}>0.0005 Wh</span></div>
+            <div>Total CO₂ = (input tokens + output tokens) × 0.0023g</div>
+            <div>CO₂ saved = |CO₂(model A) − CO₂(model B)|</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   )
 }
