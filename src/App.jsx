@@ -58,7 +58,13 @@ export default function App() {
 
       if (snap.exists()) {
         // Merge stored data with defaults (in case new fields added later)
-        setStats({ ...DEFAULT_STATS, ...snap.data() })
+        const data = snap.data()
+        setStats({
+        ...DEFAULT_STATS,
+        ...data,
+        standard: data.choices?.standard ?? 0,
+        cot:      data.choices?.cot      ?? 0,
+})
       } else {
         // First time this user has signed in → create their document
         const initial = {

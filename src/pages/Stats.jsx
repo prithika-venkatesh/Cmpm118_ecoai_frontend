@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { db } from '../firebase.js'
-import { collection, getAggregateFromServer, sum, count } from 'firebase/firestore'
+import { collection } from 'firebase/firestore'
 
 export default function Stats({ stats }) {
   const [global, setGlobal] = useState(null)
@@ -15,20 +15,18 @@ export default function Stats({ stats }) {
   useEffect(() => {
     async function loadGlobal() {
       try {
+        const { getDocs } = await import('firebase/firestore')
         const usersRef = collection(db, 'users')
-        const snapshot = await getAggregateFromServer(usersRef, {
-          totalQueries:  sum('queries'),
-          totalCO2:      sum('co2Saved'),
-          totalStandard: sum('choices.standard'),
-          totalCot:      sum('choices.cot'),
+        const snapshot = await getDocs(usersRef)
+        let queries = 0, co2 = 0, standard = 0, cot = 0
+        snapshot.forEach(doc => {
+        const d = doc.data()
+        queries  += d.queries          ?? 0
+        co2      += d.co2Saved         ?? 0
+        standard += d.choices?.standard ?? 0
+        cot      += d.choices?.cot      ?? 0
         })
-        const d = snapshot.data()
-        setGlobal({
-          queries:  d.totalQueries  ?? 0,
-          co2:      d.totalCO2      ?? 0,
-          standard: d.totalStandard ?? 0,
-          cot:      d.totalCot      ?? 0,
-        })
+        setGlobal({ queries, co2, standard, cot })
       } catch (e) {
         // Aggregate queries need Firestore indexes in some configs
         // Fall back to zeros if unavailable
@@ -221,12 +219,7 @@ export default function Stats({ stats }) {
             <a href="https://www.iea.org/reports/data-centres-and-data-transmission-networks" target="_blank" rel="noreferrer"
             style={{ color: 'var(--green)' }}>iea.org</a>
             </div>
-            <div>
-              <span style={{ color: 'var(--text2)', fontWeight: 500 }}>🌐 ML CO₂ Impact Calculator</span>
-              {' '}— Lacoste et al.{' '}
-              <a href="https://mlco2.github.io/impact" target="_blank" rel="noreferrer"
-                style={{ color: 'var(--green)' }}>mlco2.github.io/impact</a>
-            </div>
+            
             <div>
                <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 Patterson et al. (2021)</span>
                 {' '}— "Carbon and the Cloud" — Google Research.{' '}
