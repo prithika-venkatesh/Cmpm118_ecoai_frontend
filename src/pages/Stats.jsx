@@ -190,8 +190,8 @@ export default function Stats({ stats }) {
 
         <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.8 }}>
           <p style={{ marginTop: 0 }}>
-            Carbon and energy estimates are calculated per token using constants derived from
-            published ML energy research:
+          Carbon emissions are estimated using the formula: Emissions = Power × Time × Carbon Intensity,
+          based on the Nautilus CPU hardware and California regional grid data:
           </p>
           <div style={{
             background: 'var(--bg2)',
@@ -203,29 +203,35 @@ export default function Stats({ stats }) {
             marginBottom: 0,
             lineHeight: 2,
           }}>
-            <div>CO₂ per token = <span style={{ color: 'var(--green)' }}>0.0023g</span></div>
-            <div>Energy per token = <span style={{ color: 'var(--green)' }}>0.0005 Wh</span></div>
-            <div>Total CO₂ = (input tokens + output tokens) × 0.0023g</div>
+            <div>Emissions = Power × Time × Carbon Intensity</div>
+            <div>Energy (Wh) = <span style={{ color: 'var(--green)' }}>150W</span> × (duration_seconds / 3600)</div>
+            <div>CO₂ (g) = (Energy / 1000) × <span style={{ color: 'var(--green)' }}>200 gCO₂/kWh</span></div>
             <div>CO₂ saved = |CO₂(model A) − CO₂(model B)|</div>
           </div>
           <div style={{ fontSize: 12, color: 'var(--text3)', lineHeight: 2, marginTop: 16 }}>
             <div style={{ marginBottom: 4 }}>
-              <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 Patterson et al. (2021)</span>
-              {' '}— "Carbon and the Cloud" — Google Research.{' '}
-              <a href="https://arxiv.org/abs/2104.10350" target="_blank" rel="noreferrer"
-                style={{ color: 'var(--green)' }}>arxiv.org/abs/2104.10350</a>
+            <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 EPA eGRID 2023</span>
+            {' '}— U.S. Regional Carbon Intensity — California grid: 200 gCO₂/kWh.{' '}
+            <a href="https://www.epa.gov/egrid" target="_blank" rel="noreferrer"
+              style={{ color: 'var(--green)' }}>epa.gov/egrid</a>
             </div>
             <div style={{ marginBottom: 4 }}>
-              <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 Lannelongue et al. (2021)</span>
-              {' '}— "Green Algorithms: Quantifying the Carbon Footprint of Computation."{' '}
-              <a href="https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707" target="_blank" rel="noreferrer"
-                style={{ color: 'var(--green)' }}>Advanced Science</a>
+            <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 IEA (2023)</span>
+            {' '}— "Data Centres and Data Transmission Networks."{' '}
+            <a href="https://www.iea.org/reports/data-centres-and-data-transmission-networks" target="_blank" rel="noreferrer"
+            style={{ color: 'var(--green)' }}>iea.org</a>
             </div>
             <div>
               <span style={{ color: 'var(--text2)', fontWeight: 500 }}>🌐 ML CO₂ Impact Calculator</span>
               {' '}— Lacoste et al.{' '}
               <a href="https://mlco2.github.io/impact" target="_blank" rel="noreferrer"
                 style={{ color: 'var(--green)' }}>mlco2.github.io/impact</a>
+            </div>
+            <div>
+               <span style={{ color: 'var(--text2)', fontWeight: 500 }}>📄 Patterson et al. (2021)</span>
+                {' '}— "Carbon and the Cloud" — Google Research.{' '}
+                <a href="https://arxiv.org/abs/2104.10350" target="_blank" rel="noreferrer"
+                style={{ color: 'var(--green)' }}>arxiv.org/abs/2104.10350</a>
             </div>
             </div>
 

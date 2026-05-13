@@ -12,8 +12,8 @@
 //
 // ─────────────────────────────────────────────────────────
 
-const CO2_PER_TOKEN_G  = 0.0023   // grams of CO₂ per token
-const WH_PER_TOKEN     = 0.0005   // watt-hours per token
+const CPU_TDP_WATTS         = 150    // server CPU thermal design power (watts)
+const CARBON_INTENSITY      = 200    // gCO₂ per kWh, California grid (EPA eGRID 2023)
 
 /**
  * Given usage data returned by the Groq API, return
@@ -27,10 +27,14 @@ const WH_PER_TOKEN     = 0.0005   // watt-hours per token
 export function estimateUsage(promptTokens, completionTokens, durationMs) {
   const totalTokens = promptTokens + completionTokens
   const durationSec = durationMs / 1000
+  const durationHrs = durationSec / 3600
+  const wattHours   = CPU_TDP_WATTS * durationHrs
+  const co2_g       = parseFloat(((wattHours / 1000) * CARBON_INTENSITY).toFixed(4))
+
 
   return {
-    co2_g:       parseFloat((totalTokens * CO2_PER_TOKEN_G).toFixed(4)),
-    wattHours:   parseFloat((totalTokens * WH_PER_TOKEN * 1000).toFixed(1)), // in mWh
+    co2_g,
+    wattHours:    parseFloat((wattHours * 1000).toFixed(1)),
     totalTokens,
     speed:       Math.round(completionTokens / durationSec),  // tok/s
     duration:    parseFloat(durationSec.toFixed(1)),
