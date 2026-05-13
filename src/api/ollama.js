@@ -22,7 +22,10 @@ async function callModel(modelKey, prompt) {
       messages: [
         {
           role: 'system',
-          content: 'You are a helpful, concise assistant. Answer clearly and directly.',
+          content: modelKey === 'cot'
+            ? 'You are a helpful assistant. Think through this problem step by step, showing your reasoning before giving a final answer.'
+            : 'You are a helpful, concise assistant. Answer clearly and directly in as few words as possible.',
+
         },
         {
           role: 'user',
